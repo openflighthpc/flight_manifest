@@ -27,30 +27,21 @@
 # https://github.com/alces-software/flight_manifest
 #===============================================================================
 
-require "flight_manifest/version"
-require 'hashie'
-
 module FlightManifest
-  class Manifest
-    include Hashie::Extensions::Dash::Coercion
-    include Hashie::Extensions::IndifferentAccess
-  end
-
-  FILENAME = 'manifest.yaml'
-
-  def self.load(input_path)
-    path =  if /#{FILENAME}\Z/.match?(input_path)
-              input_path
-            else
-              File.join(input_path, FILENAME)
-            end
-    data = YAML.safe_load(File.read(path)).to_h
-    data[:base] = File.dirname(path)
-    Base.new(data)
+  class Node < Manifest
+    property :name
+    property :build_ip
+    property :fqdn
+    property :gateway_ip
+    property :bmc_ip
+    property :bmc_username
+    property :bmc_password
+    property :primary_group
+    property :secondary_groups, coerce: Array
+    property :kickstart, coerce: Pathname
+    property :pxelinux, coerce: Pathname
+    property :aws, coerce: Pathname
+    property :azure, coerce: Pathname
   end
 end
 
-require 'flight_manifest/base'
-require 'flight_manifest/domain'
-require 'flight_manifest/group'
-require 'flight_manifest/node'
