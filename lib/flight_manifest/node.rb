@@ -38,10 +38,12 @@ module FlightManifest
     property :bmc_password
     property :primary_group
     property :secondary_groups, coerce: Array
-    property :kickstart, coerce: Pathname
-    property :pxelinux, coerce: Pathname
-    property :aws, coerce: Pathname
-    property :azure, coerce: Pathname
+
+    # File properties are appended with `_file` suffix
+    file_property :pxelinux
+    file_property :kickstart
+    file_property :aws
+    file_property :azure
   end
 end
 

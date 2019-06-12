@@ -71,6 +71,14 @@ Loading the file will automatically generate a collection of `Manifest` objects:
 => [#<FlightManifest::Node>, ...]
 ```
 
+### File Path Handling
+
+All file path properties are suffixed with `_file` (or `_files` for an array of paths). The paths may be either relative or absolute paths. The `FlightManifest::Base` records the base path it was loaded from. By convention, the file paths should be relative to this location.
+
+To maintain flexibility and simplicity, the paths are not expanded. It is up to the application to decide if it will follow/ enforce the convention. This allows for the manifest object to be used without loading them from a file.
+
+Finally, all paths are coerced into `Pathname` objects. This provides the full range of methods from `File` and `FileUtils` which are commonly used with the path.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

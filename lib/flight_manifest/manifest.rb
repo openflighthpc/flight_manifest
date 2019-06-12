@@ -28,12 +28,21 @@
 #===============================================================================
 
 require 'hashie'
+require 'pathname'
 
 module FlightManifest
   class Manifest < Hashie::Trash
     include Hashie::Extensions::Dash::Coercion
     include Hashie::Extensions::IndifferentAccess
     include Hashie::Extensions::IgnoreUndeclared
+
+    def self.file_property(property)
+      property(:"#{property}_file", coerce: Pathname)
+    end
+
+    def self.files_property(property)
+      property(:"#{property}_files", coerce: Array[Pathname])
+    end
   end
 end
 
