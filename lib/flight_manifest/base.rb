@@ -30,8 +30,8 @@
 module FlightManifest
   class Base < Manifest
     property :base, required: true
-    property :domain, default: {}, coerce: Domain
-    property :groups, default: [], coerce: Array[Group]
-    property :nodes,  default: [], coerce: Array[Node]
+    property :domain, default: {}, coerce: FlightManifest::Domain
+    property :groups, default: [], coerce: Array[FlightManifest::Group]
+    property :nodes,  default: [], coerce: Array[FlightManifest::Node]
   end
 end

@@ -29,13 +29,23 @@
 
 require "flight_manifest/version"
 require 'hashie'
+require 'yaml'
 
 module FlightManifest
-  class Manifest
+  class Manifest < Hashie::Trash
     include Hashie::Extensions::Dash::Coercion
     include Hashie::Extensions::IndifferentAccess
   end
+end
 
+require 'flight_manifest/domain'
+require 'flight_manifest/group'
+require 'flight_manifest/node'
+
+# Must be required last
+require 'flight_manifest/base'
+
+module FlightManifest
   FILENAME = 'manifest.yaml'
 
   def self.load(input_path)
@@ -49,8 +59,3 @@ module FlightManifest
     Base.new(data)
   end
 end
-
-require 'flight_manifest/base'
-require 'flight_manifest/domain'
-require 'flight_manifest/group'
-require 'flight_manifest/node'
