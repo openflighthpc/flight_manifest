@@ -27,11 +27,23 @@
 # https://github.com/alces-software/flight_manifest
 #===============================================================================
 
+require 'pathname'
+
 module FlightManifest
   class Base < Manifest
-    property :base, required: true
+    property :base, required: true, coerce: Pathname
     property :domain, default: {}, coerce: FlightManifest::Domain
     property :groups, default: [], coerce: Array[FlightManifest::Group]
     property :nodes,  default: [], coerce: Array[FlightManifest::Node]
+
+    def to_h
+      super().map { |k,v| [k.to_sym, v] }
+             .to_h
+             .tap do |hash|
+        hash[:domain] = hash[:domain].to_h
+        [:groups, :nodes].each { |s| hash[s] = hash[s].map(&:to_h) }
+        hash[:base] = hash[:base].to_s
+      end
+    end
   end
 end

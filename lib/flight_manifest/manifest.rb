@@ -36,12 +36,33 @@ module FlightManifest
     include Hashie::Extensions::IndifferentAccess
     include Hashie::Extensions::IgnoreUndeclared
 
+    def self.file_properties
+      @file_properties ||= []
+    end
+
+    def self.files_properties
+      @files_properties ||= []
+    end
+
     def self.file_property(property)
-      property(:"#{property}_file", coerce: Pathname)
+      name = :"#{property}_file"
+      self.file_properties << name
+      property name, default: '', coerce: Pathname
     end
 
     def self.files_property(property)
-      property(:"#{property}_files", coerce: Array[Pathname])
+      name = :"#{property}_files"
+      self.files_properties << name
+      property name, default: [], coerce: Array[Pathname]
+    end
+
+    def to_h
+      super().map { |k,v| [k.to_sym, v] }
+             .to_h
+             .tap do |hash|
+        self.class.file_properties.each { |p| hash[p] = hash[p].to_s }
+        self.class.files_properties.each { |p| hash[p] = hash[p].map(&:to_s) }
+      end
     end
   end
 end

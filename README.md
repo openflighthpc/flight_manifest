@@ -77,7 +77,7 @@ All file path properties are suffixed with `_file` (or `_files` for an array of 
 
 To maintain flexibility and simplicity, the paths are not expanded. It is up to the application to decide if it will follow/ enforce the convention. This allows for the manifest object to be used without loading them from a file.
 
-Finally, all paths are coerced into `Pathname` objects. This provides the full range of methods from `File` and `FileUtils` which are commonly used with the path.
+Finally, all paths are coerced into `Pathname` objects. This provides the full range of methods from `File` and `FileUtils` which are commonly used with the path. Type casting the manifest to a hash will convert the `Pathname`s to `String`s
 
 ## Development
 
