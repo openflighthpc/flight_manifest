@@ -36,6 +36,14 @@ module FlightManifest
     property :groups, default: [], coerce: Array[FlightManifest::Group]
     property :nodes,  default: [], coerce: Array[FlightManifest::Node]
 
+    def write
+      File.write base.join(FlightManifest::FILENAME), dump
+    end
+
+    def dump
+      YAML.dump to_h.tap { |h| h.delete(:base) }
+    end
+
     def to_h
       super().map { |k,v| [k.to_sym, v] }
              .to_h

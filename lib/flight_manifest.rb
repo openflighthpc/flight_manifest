@@ -45,7 +45,7 @@ module FlightManifest
             else
               File.join(input_path, FILENAME)
             end
-    data = YAML.safe_load(File.read(path)).to_h
+    data = YAML.safe_load(File.read(path), [Symbol]).to_h
     data[:base] = File.dirname(path)
     Base.new(data)
   end
