@@ -22,7 +22,54 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+FlightManifest defines the specification for how to list components of a cluster. It is comprised of three major objects:
+* [FlightManifest::Domain](https://github.com/openflighthpc/flight_manifest/blob/master/lib/flight_manifest/domain.rb)
+* [FlightManifest::Group](https://github.com/openflighthpc/flight_manifest/blob/master/lib/flight_manifest/group.rb)
+* [FlightManifest::Node](https://github.com/openflighthpc/flight_manifest/blob/master/lib/flight_manifest/node.rb)
+
+Each object is a hash like [Hashie::Trash](https://github.com/intridea/hashie#trash) that defines the parameters that are allowed to be set. All other properties will be ignored by the object initializer.
+
+### Loading the Manifest
+
+The manifest objects can be loaded from files called `manifest.yaml` using the `FlightManifest.load(path)` method. Currently the `path` must be either:
+1. The absolute path to the `manifest.yaml` file, or
+2. The absolute path to the directory containing a `manifest.yaml`.
+
+The basic structure of the manifest is:
+
+```
+domain:
+  name:
+  gateway_ip
+  # See FlightManifest::Domain specification file for full list of properties
+groups:
+  - name: # The first group
+    # See FlightManifest::Group specification file for full list of properties
+  - name: # The second group
+nodes:
+  - name: # The first node
+    build_ip:
+    kickstart:
+    pxelinux:
+    # See FlightManifest::Node specification file for full list of properties
+  - name: # The second node
+```
+
+Loading the file will automatically generate a collection of `Manifest` objects:
+
+```
+> manifest = FlightManifest.load
+=> #<FlightManifest::Base>
+
+> manifest.domain
+=> #<FlightManifest::Domain>
+
+> manifest.groups
+=> [#<FlightManifest::Group>, ...]
+
+> manifest.nodes
+=> [#<FlightManifest::Node>, ...]
+```
 
 ## Development
 
@@ -37,3 +84,13 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 ## Code of Conduct
 
 Everyone interacting in the FlightManifest project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/flight_manifest/blob/master/CODE_OF_CONDUCT.md).
+
+## License
+Eclipse Public License 2.0, see LICENSE.txt for details.
+
+Copyright (C) 2019-present Alces Flight Ltd.
+
+This program and the accompanying materials are made available under the terms of the Eclipse Public License 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or alternative license terms made available by Alces Flight Ltd - please direct inquiries about licensing to licensing@alces-flight.com.
+
+flight_manifest is distributed in the hope that it will be useful, but WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED INCLUDING, WITHOUT LIMITATION, ANY WARRANTIES OR CONDITIONS OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. See the Eclipse Public License 2.0 for more details.
+
