@@ -27,26 +27,13 @@
 # https://github.com/alces-software/flight_manifest
 #===============================================================================
 
-require "flight_manifest/version"
-require 'yaml'
-
-require 'flight_manifest/manifest'
-require 'flight_manifest/domain'
-require 'flight_manifest/group'
-require 'flight_manifest/node'
-require 'flight_manifest/base'
+require 'hashie'
 
 module FlightManifest
-  FILENAME = 'manifest.yaml'
-
-  def self.load(input_path)
-    path =  if /#{FILENAME}\Z/.match?(input_path)
-              input_path
-            else
-              File.join(input_path, FILENAME)
-            end
-    data = YAML.safe_load(File.read(path)).to_h
-    data[:base] = File.dirname(path)
-    Base.new(data)
+  class Manifest < Hashie::Trash
+    include Hashie::Extensions::Dash::Coercion
+    include Hashie::Extensions::IndifferentAccess
+    include Hashie::Extensions::IgnoreUndeclared
   end
 end
+
