@@ -49,8 +49,8 @@ groups:
 nodes:
   - name: # The first node
     build_ip:
-    kickstart:
-    pxelinux:
+    kickstart_file:
+    pxelinux_file:
     # See FlightManifest::Node specification file for full list of properties
   - name: # The second node
 ```
