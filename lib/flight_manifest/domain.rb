@@ -33,6 +33,10 @@ module FlightManifest
     property :bmc_username
     property :bmc_password
     property :gateway_ip
+
+    # File properties are appended with `_file` suffix
+    file_property :aws
+    file_property :azure
   end
 end
 
